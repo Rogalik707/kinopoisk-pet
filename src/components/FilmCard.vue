@@ -10,14 +10,14 @@
           <svg-icon
             v-if="film?.favorite"
             class="like"
-            @click="disLikeFilm(film.id)"
+            @click.stop="disLikeFilm(film.id)"
             :src="LikeIcon"
         >
         </svg-icon>
           <svg-icon
               v-else
               class="like"
-              @click="likeFilm(film.id)"
+              @click.stop="likeFilm(film.id)"
               :src="HeartIcon"
           >
           </svg-icon>

@@ -4,7 +4,7 @@
     <button class="search__button" @click="findFilms">Найти</button>
   </div>
   <div class="cards-container" ref="scrollComponent">
-    <film-card v-for="film in films" :key="film.id" :film="film"></film-card>
+    <film-card v-for="film in films" :key="film.id" :film="film" @click="openFilmDescription(film.id)"></film-card>
   </div>
   <div class="observer" ref="observer"></div>
 </template>
@@ -54,6 +54,9 @@ export default{
         const films = await searchFilms(this.searchText)
         this.films = films.results
       }
+    },
+    openFilmDescription(id) {
+      this.$router.push(`/films/${id}`)
     }
   },
 }

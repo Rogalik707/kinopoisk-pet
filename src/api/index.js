@@ -37,3 +37,12 @@ export async function getFavoriteFilms(films) {
         console.error(error);
     }
 }
+
+export async function getFilm(id) {
+    try {
+        const response = await axiosInstance.get(`/titles/${id}`)
+        return response.data
+    } catch (error) {
+        console.error(error);
+    }
+}
