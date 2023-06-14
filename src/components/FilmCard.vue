@@ -2,7 +2,7 @@
     <div class="card">
       <div class="card__img"><img :src="film?.primaryImage?.url"></div>
       <div class="card__body">
-        <div class="card__title"><h4>{{ film.titleText.text }}</h4></div>
+        <div class="card__title"><h4>{{ film.originalTitleText.text }}</h4></div>
           <div class="description">
             <div class="card__year">({{ film.releaseDate.year }})</div>
           </div>

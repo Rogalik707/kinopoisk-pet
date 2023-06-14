@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <input class="search__input" v-model="searchText" placeholder="Название фильма">
-    <button class="search__button" @click="findFilms">Найти</button>
+    <button class="search__button" @click="findFilms" :disabled="isLoading">Найти</button>
   </div>
   <div class="cards-container" ref="scrollComponent">
     <film-card v-for="film in films" :key="film.id" :film="film" @click="openFilmDescription(film.id)"></film-card>
@@ -21,6 +21,7 @@ export default{
       films: [],
       page: 1,
       searchText: '',
+      isLoading: false
     }
   },
   created() {
@@ -51,8 +52,12 @@ export default{
     },
     async findFilms() {
       if(this.searchText) {
+        this.isLoading = true
         const films = await searchFilms(this.searchText)
         this.films = films.results
+        if(this.films) {
+          this.isLoading = false
+        }
       }
     },
     openFilmDescription(id) {

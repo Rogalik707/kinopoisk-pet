@@ -46,3 +46,12 @@ export async function getFilm(id) {
         console.error(error);
     }
 }
+export async function getActors() {
+    try {
+        const response = await axiosInstance.get('/actors/random');
+        return response.data;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
