@@ -2,7 +2,7 @@
   <div class="search">
     <form @submit.prevent="findFilms">
       <input class="search__input" v-model="searchText" placeholder="Название фильма">
-      <button class="search__button" :disabled="isLoading">Найти</button>
+      <button class="search__button" :disabled="isLoading"><strong>Найти</strong></button>
     </form>
   </div>
   <div class="cards-container" ref="scrollComponent">
