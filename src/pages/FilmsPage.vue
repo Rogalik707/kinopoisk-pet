@@ -1,7 +1,9 @@
 <template>
   <div class="search">
-    <input class="search__input" v-model="searchText" placeholder="Название фильма">
-    <button class="search__button" @click="findFilms" :disabled="isLoading">Найти</button>
+    <form @submit.prevent="findFilms">
+      <input class="search__input" v-model="searchText" placeholder="Название фильма">
+      <button class="search__button" :disabled="isLoading">Найти</button>
+    </form>
   </div>
   <div class="cards-container" ref="scrollComponent">
     <film-card v-for="film in films" :key="film.id" :film="film" @click="openFilmDescription(film.id)"></film-card>

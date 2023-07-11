@@ -50,7 +50,7 @@ img {
   border-radius: 10px;
 }
 .film {
-  margin: 100px 0 0 100px;
+  margin: 100px 0 0 0;
   display: flex;
   justify-content: center;
   &__text_box {

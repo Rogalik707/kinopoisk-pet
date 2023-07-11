@@ -65,10 +65,15 @@ export default {
 .card {
   height: 350px;
   width: 200px;
-  border: 2px solid black;
+  background-color: #c5c5c5;
   border-radius: 10px;
   margin: 30px;
   justify-content: center;
+  box-shadow: 0 0 15px 1px #757575;
+    &:hover {
+      transition: 0.3s; /* Время эффекта */
+      transform: scale(1.04); /* Увеличиваем масштаб */
+    }
 }
 .card__body {
   padding: 0 20px;
@@ -77,7 +82,7 @@ export default {
 }
 img {
   height: 220px;
-  width: 197px;
+  width: 200px;
   border-radius: 9px;
 }
 .description {
