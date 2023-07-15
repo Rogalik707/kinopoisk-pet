@@ -15,6 +15,8 @@
 
 import FilmCard from "@/components/FilmCard.vue";
 import {getFilms, searchFilms} from "@/api";
+import {mapActions, mapState} from "pinia";
+import {useFilmStore} from "@/store";
 
 export default{
   components: {FilmCard},
@@ -23,7 +25,7 @@ export default{
       films: [],
       page: 1,
       searchText: '',
-      isLoading: false
+      isLoading: false,
     }
   },
   created() {
@@ -42,7 +44,16 @@ export default{
     const observer = new IntersectionObserver(callback, options);
     observer.observe(this.$refs.observer)
   },
+  watch: {
+    "films"() {
+      this.checkLikedFilms()
+    }
+  },
+  computed: {
+    ...mapState(useFilmStore, ["favoriteFilms"])
+  },
   methods: {
+    ...mapActions(useFilmStore, ['addWatchedFilm']),
     async fetchFilms(page) {
       const response = await getFilms(page)
       this.films = response.results
@@ -64,6 +75,14 @@ export default{
     },
     openFilmDescription(id) {
       this.$router.push(`/films/${id}`)
+      this.addWatchedFilm(id)
+    },
+    checkLikedFilms() {
+      this.films.forEach(el => {
+        if (this.favoriteFilms.includes(el.id)) {
+          el.favorite = true
+        }
+      })
     }
   },
 }

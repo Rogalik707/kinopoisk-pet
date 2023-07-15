@@ -6,29 +6,15 @@
           <div class="description">
             <div class="card__year">({{ film.releaseDate.year }})</div>
           </div>
-        <div class="like">
-          <svg-icon
-            v-if="film?.favorite"
-            class="like"
-            @click.stop="disLikeFilm(film.id)"
-            :src="LikeIcon"
-        >
-        </svg-icon>
-          <svg-icon
-              v-else
-              class="like"
-              @click.stop="likeFilm(film.id)"
-              :src="HeartIcon"
-          >
-          </svg-icon>
+        <div class="like"
+             :class="{ 'like--active': isLiked }"
+             @click.stop.prevent="changeFilmStatus(film.id)">
         </div>
       </div>
     </div>
 </template>
        
 <script>
-import HeartIcon from '../assets/heart.svg'
-import LikeIcon from '../assets/redheart.svg'
 import {mapActions} from "pinia";
 import {useFilmStore} from "@/store";
 
@@ -36,8 +22,7 @@ export default {
   name: 'FilmCard',
   data() {
     return {
-      HeartIcon,
-      LikeIcon,
+      isLiked: false,
     }
   },
   props: {
@@ -46,21 +31,26 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    if (this.film.favorite) {
+      this.isLiked = true
+    }
+  },
   methods: {
     ...mapActions(useFilmStore, ['addFavoriteFilm', 'deleteFilm']),
-    likeFilm(id) {
-      this.addFavoriteFilm(id)
-      this.$emit('onLike', id)
-    },
-    disLikeFilm(id) {
-      this.deleteFilm(id)
-      this.$emit('onDislike', id)
+    changeFilmStatus(id) {
+      if(this.isLiked) {
+        this.deleteFilm(id)
+      } else {
+        this.addFavoriteFilm(id)
+      }
+      this.isLiked = !this.isLiked
     }
   }
 }
 </script>
        
-<style scoped>
+<style lang="scss" scoped>
 
 .card {
   height: 350px;
@@ -89,4 +79,20 @@ img {
   display: flex;
   flex-direction: column;
 }
+
+.like {
+  margin-top: 5px;
+  width: 24px;
+  height: 24px;
+  background: url("@/assets/blackHeart.svg") no-repeat;
+  cursor: pointer;
+  &--active {
+      background: url("@/assets/redHeart.svg") no-repeat;
+  }
+  &:hover {
+    transform: scale(1.1);
+    transition: ease-in-out 0.2s;
+  }
+}
+
 </style>

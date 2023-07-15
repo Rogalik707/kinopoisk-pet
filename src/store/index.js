@@ -2,11 +2,9 @@ import {defineStore} from "pinia";
 
 export const useFilmStore = defineStore('film', {
     state: () => ({
-        favoriteFilms: []
+        favoriteFilms: [],
+        watchedFilms: []
     }),
-    getters: {
-
-    },
     actions: {
         addFavoriteFilm(id) {
             this.favoriteFilms.push(id)
@@ -14,6 +12,11 @@ export const useFilmStore = defineStore('film', {
         deleteFilm(id) {
             const index = this.favoriteFilms.findIndex((el) => el === id)
             this.favoriteFilms.splice(index, 1)
+        },
+        addWatchedFilm(id) {
+            if (!this.watchedFilms.includes(id)) {
+                this.watchedFilms.push(id)
+            }
         }
     },
 })

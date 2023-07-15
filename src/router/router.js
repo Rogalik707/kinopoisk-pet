@@ -22,7 +22,10 @@ const routes = [
         path: '/films/:id',
         component: DescriptionPage,
     },
-
+    {
+        path: '/:CatchAll(.*)',
+        component: <h1>Страничка не найдена :'(</h1>
+    }
 ]
 
 

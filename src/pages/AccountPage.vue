@@ -2,10 +2,10 @@
  <div class="profile">
    <div class="profile__img"></div>
    <div class="profile__description">
-     <h1>Machen</h1>
+     <h1>Профиль</h1>
      <div class="profile__table_box">
       <ul>
-        <li>Просмотренных фильмов: 0</li>
+        <li>Просмотренных фильмов: {{ watchedFilms.length}}</li>
         <li>Понравившихся фильмов: {{ favoriteFilms.length }} </li>
         <li>Просмотренных сериалов: 0</li>
         <li>Понравившихся сериалов: 0</li>
@@ -23,7 +23,7 @@ import {useFilmStore} from "@/store";
 export default {
   name: 'AccountPage',
   computed: {
-    ...mapState(useFilmStore, ["favoriteFilms"])
+    ...mapState(useFilmStore, ["favoriteFilms", "watchedFilms"])
   }
 }
 </script>

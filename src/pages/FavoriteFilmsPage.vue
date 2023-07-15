@@ -18,10 +18,10 @@ export default {
       films: []
     }
   },
-  mounted() { //када компонент отработает на стр
+  mounted() {
     this.fetchFavoriteFilms(this.favoriteFilms)
-  },
-  computed: { // свойство, внутри которого какие-то данные, которые пересчитываются при обновлении компонента
+    },
+  computed: {
     ...mapState(useFilmStore,['favoriteFilms'])
   },
   methods: {
@@ -32,7 +32,7 @@ export default {
       if (this.films) {
         this.films.forEach((el) => el.favorite = true)
       }
-    }
+    },
   }
 }
 </script>
