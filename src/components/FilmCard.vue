@@ -4,7 +4,7 @@
       <div class="card__body">
         <div class="card__title"><h4>{{ film.originalTitleText.text }}</h4></div>
           <div class="description">
-            <div class="card__year">({{ film.releaseDate.year }})</div>
+            <div class="card__year">{{ film.releaseDate?.year }}</div>
           </div>
         <div class="like"
              :class="{ 'like--active': isLiked }"

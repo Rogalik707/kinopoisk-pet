@@ -55,3 +55,24 @@ export async function getActors() {
         console.error(error);
     }
 }
+
+export async function getGenres() {
+    try {
+        const response = await axiosInstance.get('titles/utils/genres');
+        return response.data;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+export async function getFilmsByGenre(genre) {
+    try {
+        const response = await axiosInstance.get('/titles', {
+            params: {genre: genre},
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+

@@ -1,5 +1,10 @@
 <template>
   <div class="search">
+    <select-list
+        :options="genres"
+        @onSelectOption="selectGenre"
+    >
+    </select-list>
     <form @submit.prevent="findFilms">
       <input class="search__input" v-model="searchText" placeholder="Название фильма">
       <button class="search__button" :disabled="isLoading"><strong>Найти</strong></button>
@@ -14,24 +19,28 @@
 <script>
 
 import FilmCard from "@/components/FilmCard.vue";
-import {getFilms, searchFilms} from "@/api";
+import {getFilms, getFilmsByGenre, getGenres, searchFilms} from "@/api";
 import {mapActions, mapState} from "pinia";
 import {useFilmStore} from "@/store";
+import SelectList from "@/components/UI/SelectList.vue";
 
 export default{
-  components: {FilmCard},
+  components: {SelectList, FilmCard},
   data() {
     return {
       films: [],
       page: 1,
       searchText: '',
       isLoading: false,
+      genres: [],
+      filters: {genre: ''},
     }
   },
   created() {
     this.fetchFilms(this.page)
   },
   mounted() {
+    this.fetchGenres()
     const options = {
       rootMargin: '0px',
       threshold: 1.0
@@ -64,14 +73,22 @@ export default{
       this.films = [...this.films, ...moreFilms.results]
     },
     async findFilms() {
+      this.isLoading = true
+      if(this.filters.genre) {
+        const films = await getFilmsByGenre(this.filters.genre)
+        this.films = films.results
+      }
       if(this.searchText) {
-        this.isLoading = true
         const films = await searchFilms(this.searchText)
         this.films = films.results
-        if(this.films) {
-          this.isLoading = false
-        }
       }
+      if(this.films) {
+        this.isLoading = false
+      }
+    },
+    async fetchGenres() {
+      const response = await getGenres()
+      this.genres = response.results
     },
     openFilmDescription(id) {
       this.$router.push(`/films/${id}`)
@@ -83,6 +100,9 @@ export default{
           el.favorite = true
         }
       })
+    },
+    selectGenre(genre) {
+      this.filters.genre = genre
     }
   },
 }
