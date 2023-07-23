@@ -10,9 +10,10 @@
       <button class="search__button" :disabled="isLoading"><strong>Найти</strong></button>
     </form>
   </div>
-  <div class="cards-container" ref="scrollComponent">
+  <div v-if="!preloader" class="cards-container" ref="scrollComponent">
     <film-card v-for="film in films" :key="film.id" :film="film" @click="openFilmDescription(film.id)"></film-card>
   </div>
+  <span v-else class="loader"></span>
   <div class="observer" ref="observer"></div>
 </template>
     
@@ -34,6 +35,7 @@ export default{
       isLoading: false,
       genres: [],
       filters: {genre: ''},
+      preloader: false,
     }
   },
   created() {
@@ -64,8 +66,17 @@ export default{
   methods: {
     ...mapActions(useFilmStore, ['addWatchedFilm']),
     async fetchFilms(page) {
-      const response = await getFilms(page)
-      this.films = response.results
+      try {
+        this.preloader = true
+        const response = await getFilms(page)
+        this.films = response.results
+      }
+      catch (e) {
+        alert('error')
+      }
+      finally {
+        this.preloader = false
+      }
     },
     async loadMoreFilms() {
       this.page += 1
@@ -128,9 +139,15 @@ export default{
     background-color: #ff8100;
     border-radius: 15px;
     border: none;
+    -webkit-box-shadow: 0px 2px 11px 2px rgb(255, 129, 0);
+    -moz-box-shadow: 0px 2px 11px 2px rgb(255, 129, 0);
+    box-shadow: 0px 2px 11px 2px rgb(255, 129, 0);
     &:hover {
       background-color: #9a5202;
       color: #b2b2b2;
+      -webkit-box-shadow: 0px 2px 11px 2px rgb(154, 82, 2);
+      -moz-box-shadow: 0px 2px 11px 2px rgb(154, 82, 2);
+      box-shadow: 0px 2px 11px 2px rgb(154, 82, 2);
     }
     &:active {
       background-color: #542a00;
@@ -146,4 +163,26 @@ export default{
 .observer {
   height: 30px;
 }
+.loader {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ff8100;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 </style>

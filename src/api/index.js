@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 export async function getFilms(page) {
     try {
         const response = await axiosInstance.get('/titles', {
-            params: {startYear: '2020',  list: 'most_pop_movies', page: page},
+            params: {startYear: '2005',  list: 'most_pop_movies', page: page},
         });
         return response.data;
     } catch (error) {
